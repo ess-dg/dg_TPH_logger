@@ -18,9 +18,9 @@ import os
 ###############################################################################
 ###############################################################################
 
-# path = '/Users/francescopiscitelli/Documents/PYTHON/THP_Logger/TPH_logger_Utgard/LogFiles/'
+# path = '/Users/francescopiscitelli/Documents/PYTHON/TPH_Logger/TPH_logger_Utgard/LogFiles/'
 
-# fileName = 'Utgard_TPHlog_2021-01-31.txt'
+# fileName = 'Utgard_TPHlog_2021-02-095.txt'
 
 # fileHeader = 2
 
@@ -29,15 +29,18 @@ import os
 
 def readLogFile (path,fileName,fileHeader=2):
 
+# for k in [0]:
+    
     fileh = path+fileName
     
     if not os.path.isfile(fileh):
-           print('\n \033[1;33mWARNING: Log file for this date does not exist -> skipped! \033[1;37m')
-           # Time = list(range(48))
-           # TPH  = np.zeros((48,3))
-           Time = [0]
-           TPH  = np.zeros((1,3))
+           # print('\n \033[1;33mWARNING: Log file for this date does not exist -> skipped! \033[1;37m')
+           flag = -1
+           TPH  = np.array([])
+           Time = []
+           
     else:
+            flag = 0
            # if the file exists open 
             fo = open(fileh, "r")
       
@@ -57,4 +60,4 @@ def readLogFile (path,fileName,fileHeader=2):
     
             fo.close()
             
-    return Time, TPH
+    return Time, TPH, flag

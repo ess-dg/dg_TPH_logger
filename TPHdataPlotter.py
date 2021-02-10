@@ -15,9 +15,7 @@ Created on Mon Feb  1 10:38:36 2021
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-import seaborn as sns
-# import datetime
-# import matplotlib
+import datetime  
 
 from lib import readLogFile as rlf 
 
@@ -34,45 +32,68 @@ dataPath = currentLoc+'/LogFiles/'
 # file base name 
 fileNameBase = 'Utgard_TPHlog_'
 
-# plot these dates in this senquence 
-dates = ['2021-01-30','2021-01-31','2021-02-01']
+# plot these dates from ... to ...
+dateStart = '2021-01-28'
+dateEnd   = '2021-02-14'
 
 ###############################################################################
 ###############################################################################
-
-palette = sns.color_palette(palette = 'bright' ,n_colors = len(dates))
-
 ###############################################################################
 ###############################################################################
 
-fig, ax = plt.subplots(num=1, figsize=(12,12), nrows=3, ncols=len(dates), sharex=True, sharey=False)
-ax.shape  = (3,len(dates))
-ax        = np.atleast_2d(ax)
+start = datetime.datetime.strptime(dateStart, "%Y-%m-%d")
+end   = datetime.datetime.strptime(dateEnd, "%Y-%m-%d")
 
-for dd in range(len(dates)):
+dates = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
-    currentFile = fileNameBase+dates[dd]+'.txt'
-    
-    Time, TPH = rlf.readLogFile(dataPath,currentFile,fileHeader=2)
-    
-    
-    
-    ax[0][dd].set_title('date '+dates[dd])
-    ax[0][dd].plot(Time,TPH[:,0],color=palette[dd])
-    ax[1][dd].plot(Time,TPH[:,1],color=palette[dd])
-    ax[2][dd].plot(Time,TPH[:,2],color=palette[dd])
-    
-    ax[2][dd].set_xlabel('Time') 
-    # plt.xticks(rotation=90)
-    
-    # ax[0][dd].set_ylim([10,30]) 
-    # ax[1][dd].set_ylim([960,1030]) 
-    # ax[2][dd].set_ylim([20,90]) 
+###############################################################################
 
-    # plt.xticks(rotation=90)
-    # plt.setp(ax[0][dd].get_xticklabels(), rotation=90)
+Tg   = []
+TPHg = np.empty((0,3), dtype=float)
 
-ax[0][0].set_ylabel('T (C)') 
-ax[1][0].set_ylabel('P (mBar)')
-ax[2][0].set_ylabel('RH (%)')
+for dd in dates:
+    
+    currentDate = datetime.datetime.strftime(dd, '%Y-%m-%d') 
+    
+    currentFile = fileNameBase+currentDate+'.txt'
+    
+    Time, TPH, flag = rlf.readLogFile(dataPath,currentFile,fileHeader=2)
+    
+    if flag == -1 :
+        print('\n \033[1;33mWARNING: Log file for date '+ currentDate +' does not exist -> skipped! \033[1;37m')
+        continue
+    
+    else:
+         
+        Time2 = [currentDate +' '+ s for s in Time]
+              
+        for tt in range(len(Time2)):
+            
+            Time2[tt] =  datetime.datetime.strptime(Time2[tt], '%Y-%m-%d %H:%M:%S') 
+         
+        TPHg = np.append(TPHg,TPH,axis=0)
+        Tg   = np.append(Tg,Time2,axis=0)
+  
+
+###############################################################################
    
+fig, ax = plt.subplots(num=1, figsize=(10,7), nrows=3, ncols=1, sharex=True, sharey=False)    
+ax[0].plot(Tg,TPHg[:,0],linestyle='None',color='r',marker='o')
+ax[1].plot(Tg,TPHg[:,1],linestyle='None',color='g',marker='o')
+ax[2].plot(Tg,TPHg[:,2],linestyle='None',color='b',marker='o')
+    
+fig.autofmt_xdate()
+    # formatter = matplotlib.dates.DateFormatter('%y-%m-%d %H:%M')
+    # formatter = matplotlib.dates.DateFormatter('%d-%m-%y %H:%M')
+    # ax[2][dd].xaxis.set_major_formatter(formatter)
+    
+# ax[2].set_xlabel('Date - Time') 
+
+ax[0].set_ylabel('T (C)') 
+ax[1].set_ylabel('P (mBar)')
+ax[2].set_ylabel('RH (%)')
+ax[0].grid()
+ax[1].grid()
+ax[2].grid()
+   
+###############################################################################
