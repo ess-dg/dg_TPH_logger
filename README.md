@@ -2,10 +2,11 @@ This code writes log files for Temp, Pressure and RH from sensor MS8607_02BA.
 
 Contents: python scripts and subfolder.
 - TPHlogger.py the script itself managing the log
-- TPHdataPlotter.py a very simple plotting tool for the log files 
+- TPHdataPlotter.py a very simple plotting tool for the log files with sync option too 
 - WatchMe.py a watchdog that reboots the raspberry if the logging is not happening anymore 
 - lib/MS8607_02BA.py is the sensor reader
 - lib/readLogFile.py a reader for the log files
+- lib/syncUtil.py a py for a bash command rsync to sync the data from one computer to another 
 - subfolder LogFiles/ where the log files are stored
 
 In the LogFiles folder there are two types of files:

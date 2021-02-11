@@ -8,7 +8,7 @@ Created on Mon Feb  1 10:38:36 2021
 ###############################################################################
 ###############################################################################
 ########    TPH logger for sensor MS8607_02BA file reader    ################## 
-########    V1.0  2021/02/01      francescopiscitelli        ##################
+########    V1.1  2021/02/11      francescopiscitelli        ##################
 ###############################################################################
 ###############################################################################
 
@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import datetime  
 
 from lib import readLogFile as rlf 
+from lib import syncUtil 
 
 ###############################################################################
 ###############################################################################
@@ -27,18 +28,37 @@ currentLoc = os.path.abspath(os.path.dirname(__file__))
 ###############################################################################
 ###############################################################################
 
-dataPath = currentLoc+'/LogFiles/'
+SYNC = False    # ON/OFF if you want to tranfer the logFiles in your local Folder 
+
+# location where log files are stored in raspPi
+sourcePath = 'pi@172.30.244.189:/home/pi/TPH_logger_Utgard/LogFiles/'
+
+# location where you want to copy the files in your local folder 
+destinationPath = currentLoc+'/LogFiles/'
+
+# location from where to load the log files 
+dataPath = destinationPath
 
 # file base name 
 fileNameBase = 'Utgard_TPHlog_'
 
-# plot these dates from ... to ...
+# plot these dates from (included) ... to ...(excluded)
 dateStart = '2021-01-28'
-dateEnd   = '2021-02-14'
+dateEnd   = '2021-02-15'
 
 ###############################################################################
 ###############################################################################
+########    end of with all the settings you can choose   #####################
+########        DO NOT EDIT BELOW THIS LINE!!!!           #####################
 ###############################################################################
+###############################################################################
+###############################################################################
+###############################################################################
+##############################################################################
+
+if SYNC == True:
+    syncUtil.syncData(sourcePath,destinationPath)
+
 ###############################################################################
 
 start = datetime.datetime.strptime(dateStart, "%Y-%m-%d")
