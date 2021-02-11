@@ -31,7 +31,7 @@ currentLoc = os.path.abspath(os.path.dirname(__file__))
 SYNC = False    # ON/OFF if you want to tranfer the logFiles in your local Folder 
 
 # location where log files are stored in raspPi
-sourcePath = 'pi@172.30.244.189:/home/pi/TPH_logger_Utgard/LogFiles/'
+sourcePath = 'pi@172.30.244.189:/home/pi/dg_TPH_logger/LogFiles/'
 
 # location where you want to copy the files in your local folder 
 destinationPath = currentLoc+'/LogFiles/'
