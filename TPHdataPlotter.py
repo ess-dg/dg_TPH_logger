@@ -109,8 +109,8 @@ fig.autofmt_xdate()
     
 # ax[2].set_xlabel('Date - Time') 
 
-ax[0].set_ylabel('T (C)') 
-ax[1].set_ylabel('P (mBar)')
+ax[0].set_ylabel('T ($^o$C)')
+ax[1].set_ylabel('P (mbar)')
 ax[2].set_ylabel('RH (%)')
 ax[0].grid()
 ax[1].grid()
