@@ -14,3 +14,5 @@ Utgard_TPHlog_<current_date>_PowerFailure.txt
 Utgard_TPHlog_<current_date>.txt
 The T, P, RH is logged in the Utgard_TPHlog_<current_date>.txt file every 30 minutes.  Every day at midnight a new file is created with the relative new date. This file has two header lines and 4 columns following with time, T, P, RH.
 
+Credits:
+https://github.com/anirudh-ramesh/MS8607-02BA01/blob/master/Python/MS8607_02BA.py
