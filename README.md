@@ -10,7 +10,7 @@ Contents: python scripts and subfolder.
 - subfolder LogFiles/ where the log files are stored
 
 Note: the WatchMe.py works based on the fact that both TPHlogger.py and WatchMe.py are added as cron jobs at reboot.
-Cronttab -e add the following lines: 
+Crontab -e add the following lines: 
 
     @reboot python /home/pi/dg_TPH_logger/TPHlogger.py
     @reboot python /home/pi/dg_TPH_logger/WatchMe.py
