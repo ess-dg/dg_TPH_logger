@@ -9,6 +9,14 @@ Contents: python scripts and subfolder.
 - lib/syncUtil.py a py for a bash command rsync to sync the data from one computer to another 
 - subfolder LogFiles/ where the log files are stored
 
+Note: the WatchMe.py works based on the fact that both TPHlogger.py and WatchMe.py are added as cron jobs at reboot.
+Cronttab -e add the following lines: 
+
+    @reboot python /home/pi/dg_TPH_logger/TPHlogger.py
+    @reboot python /home/pi/dg_TPH_logger/WatchMe.py
+
+changing the path /home/pi according to your path where the logger folder is locagted. 
+
 In the LogFiles folder there are two types of files:
 Utgard_TPHlog_<current_date>_PowerFailure.txt 
 Utgard_TPHlog_<current_date>.txt
