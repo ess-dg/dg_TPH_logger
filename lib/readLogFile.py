@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb  1 09:32:52 2021
+Created on 12/2023
 
 @author: francescopiscitelli
 """
 ###############################################################################
 ###############################################################################
-########    TPH logger for sensor MS8607_02BA file reader    ################## 
-########    V1.0  2021/02/01      francescopiscitelli        ##################
+########    TPH logger for sensor MS8607_02BA file reader for Arduino  ######## 
+########    V2.0  2023/12/03      francescopiscitelli                  ########
 ###############################################################################
 ###############################################################################
 
@@ -27,7 +27,8 @@ import os
 ###############################################################################
 ###############################################################################
 
-def readLogFile (path,fileName,fileHeader=2):
+def readLogFile (path,fileName,fileHeader=2,Ncols=6):
+
 
 # for k in [0]:
     
@@ -52,11 +53,11 @@ def readLogFile (path,fileName,fileHeader=2):
             
             Nl   = len(dataList)
             Time = []
-            TPH  = np.zeros((Nl,3))
+            TPH  = np.zeros((Nl,Ncols))
             for ll in range(Nl): 
                 temp = dataList[ll].split()
                 Time.append(temp[0])
-                TPH[ll,:] = np.float64(temp[1:4])
+                TPH[ll,:] = np.float64(temp[1:Ncols+1])
     
             fo.close()
             

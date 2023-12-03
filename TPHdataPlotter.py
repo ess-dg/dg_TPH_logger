@@ -16,6 +16,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import datetime  
+# import matplotlib
 
 from lib import readLogFile as rlf 
 from lib import syncUtil 
@@ -34,7 +35,8 @@ SYNC = False    # ON/OFF if you want to tranfer the logFiles in your local Folde
 sourcePath = 'pi@172.30.244.189:/home/pi/dg_TPH_logger/LogFiles/'
 
 # location where you want to copy the files in your local folder 
-destinationPath = currentLoc+'/LogFiles/'
+# destinationPath = currentLoc+'/LogFiles/'
+destinationPath ='/Users/francescopiscitelli/Documents/DOC/DATA/00_logFiles_TPH_sensor_Utgard/'
 
 # location from where to load the log files 
 dataPath = destinationPath
@@ -43,8 +45,9 @@ dataPath = destinationPath
 fileNameBase = 'Utgard_TPHlog_'
 
 # plot these dates from (included) ... to ...(excluded)
-dateStart = '2021-01-28'
-dateEnd   = '2021-02-15'
+dateStart = '2023-09-20'
+# dateStart = '2022-04-05'
+dateEnd   = '2023-09-30'
 
 ###############################################################################
 ###############################################################################
@@ -77,10 +80,10 @@ for dd in dates:
     
     currentFile = fileNameBase+currentDate+'.txt'
     
-    Time, TPH, flag = rlf.readLogFile(dataPath,currentFile,fileHeader=2)
+    Time, TPH, flag = rlf.readLogFile(dataPath,currentFile,fileHeader=2,Ncols=3)
     
     if flag == -1 :
-        print('\n \033[1;33mWARNING: Log file for date '+ currentDate +' does not exist -> skipped! \033[1;37m')
+        print('\033[1;33mWARNING: Log file for date '+ currentDate +' does not exist -> skipped! \033[1;37m')
         continue
     
     else:
@@ -96,26 +99,63 @@ for dd in dates:
   
 
 ###############################################################################
+
+# windowSize = 7
+
+
+
+############
    
 fig, ax = plt.subplots(num=1, figsize=(10,7), nrows=3, ncols=1, sharex=True, sharey=False)    
-ax[0].plot(Tg,TPHg[:,0],linestyle='None',color='r',marker='o')
-ax[1].plot(Tg,TPHg[:,1],linestyle='None',color='g',marker='o')
-ax[2].plot(Tg,TPHg[:,2],linestyle='None',color='b',marker='o')
+ax[0].plot(Tg,TPHg[:,0],linestyle='None',color='r',marker='o',markersize=3)
+ax[1].plot(Tg,TPHg[:,1],linestyle='None',color='g',marker='o',markersize=3)
+ax[2].plot(Tg,TPHg[:,2],linestyle='None',color='b',marker='o',markersize=3)
     
+
+# formatter = matplotlib.dates.DateFormatter('%y-%m-%d %H:%M')
+# ax[2].xaxis.set_major_formatter(formatter)
+# ax[2].xaxis.set_minor_formatter(formatter)
 fig.autofmt_xdate()
-    # formatter = matplotlib.dates.DateFormatter('%y-%m-%d %H:%M')
-    # formatter = matplotlib.dates.DateFormatter('%d-%m-%y %H:%M')
-    # ax[2][dd].xaxis.set_major_formatter(formatter)
-    
 # ax[2].set_xlabel('Date - Time') 
 
-ax[0].set_ylabel('T ($^o$C)')
+ax[0].set_ylabel('T ($^o$C)') 
 ax[1].set_ylabel('P (mbar)')
 ax[2].set_ylabel('RH (%)')
+
+plt.minorticks_on()
+
 ax[0].grid()
 ax[1].grid()
 ax[2].grid()
-   
-###############################################################################
+
+# LastDays = 7
+
+# Trange = -LastDays*48
+
+# Tmax = -30
+
+# fig, ax = plt.subplots(num=2, figsize=(10,7), nrows=3, ncols=1, sharex=True, sharey=False)    
+# ax[0].plot(Tg[Trange:Tmax],TPHg[Trange:Tmax,0],linestyle='None',color='r',marker='o',markersize=3)
+# ax[1].plot(Tg[Trange:Tmax],TPHg[Trange:Tmax,1],linestyle='None',color='g',marker='o',markersize=3)
+# ax[2].plot(Tg[Trange:Tmax],TPHg[Trange:Tmax,2],linestyle='None',color='b',marker='o',markersize=3)
+    
+
+# # formatter = matplotlib.dates.DateFormatter('%y-%m-%d %H:%M')
+# # ax[2].xaxis.set_major_formatter(formatter)
+# # ax[2].xaxis.set_minor_formatter(formatter)
+# fig.autofmt_xdate()
+# # ax[2].set_xlabel('Date - Time') 
+
+# ax[0].set_ylabel('T ($^o$C)') 
+# ax[1].set_ylabel('P (mbar)')
+# ax[2].set_ylabel('RH (%)')
+
+# plt.minorticks_on()
+
+# ax[0].grid()
+# ax[1].grid()
+# ax[2].grid()
 
 plt.show()
+   
+###############################################################################
